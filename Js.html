@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>2022雷军年度演讲</title>
+    <script>
+        function yuyue() {
+            document.getElementById("ab").innerHTML = "正在跳转……";
+        }
+    </script>
+    <style>
+        #div1{
+            border: #000 solid 0px;
+            margin: 50px auto;
+        }
+        #div1 img{
+            cursor: pointer;
+            transition: all 0.6s;
+        }
+        #div1 img:hover{
+            transform: scale(1.4);
+        }
+    </style>
+    <style>
+        #div2{
+            border: #000 solid 0px;
+            margin: 50px auto;
+        }
+        #div2 img{
+            cursor: pointer;
+            transition: all 0.6s;
+        }
+        #div2 img:hover{
+            transform: scale(1.4);
+        }
+    </style>
+</head>
+<body>
+<script>
+    let request = new XMLHttpRequest();
+        request.onreadystatechange=function() {
+            if (request.readyState==4 && request.status==200) {
+                document.getElementById("id-div").innerHTML=request.responseText;
+                document.getElementById("id-div2").innerHTML=request.responseText;
+            }
+        }
+    request.open('GET', "http://localhost:63342/Ani.java/Js.html?_ijt=lmgnevqb6a9fm0ngu8124np3oh");
+    request.send();
+</script>
+<script>{
+    console.log("这是一个网页");
+    console.warn("这是一个会出错的网页");
+    console.error("图谋不轨的人会将病毒植入这个网页");
+    }
+</script>
+<p style="margin: -3px"><a href="https://www.mi.com"><img src="https://i01.appmifile.com/webfile/globalimg/favicon.ico" height="32px" width="32px"></a></p>
+<table>
+    <tr>
+        <td>
+            <div id="div1">
+            <p style="margin-left: 75px"><img src="https://gd-hbimg.huaban.com/1ede80af672add9f4a7b509126ccd473a0b98697f5ad-hQ9FpD_fw658" width="204" height="272"></p></div>
+        </td>
+        <td>
+            <p style="text-align:center"><img src="https://inews.gtimg.com/newsapp_bt/0/15152735192/1000" width="725" height="403"></p>
+        </td>
+        <td>
+            <div id="div2">
+            <img src="https://n.sinaimg.cn/spider20220811/600/w600h800/20220811/10d1-1daea5fbc1315d550ead1b4d82dd0229.jpg" width="204" height="272"></div>
+        </td>
+    </tr>
+</table>
+<script>
+    alert("2022雷军年度演讲马上就要和大家见面了！点击“确定”进行预约");
+</script>
+<p id="ab" style="text-align: center"></p>
+<button style="font-size: 15px;color: white;border-style:none;border-radius: 19px;background-color: orange;padding: 7px;position: absolute;left: 50%;transform: translateX(-50%);text-align: center"
+        type="button" id="anniu"
+        onclick="yuyue();window.open('https://www.mi.com/a/h/24997.html?sign=1865f685370ca405005502b509d56964&spmref=MiShop_PC.mihomepage.mtl_62ecbb7b5764540001e2352c.1');javascript:this.style.display='none'">立即预约</button>
+<script>
+    function test(arg) {
+    console.log(arg);
+}
+</script>
+</body>
+</html>
