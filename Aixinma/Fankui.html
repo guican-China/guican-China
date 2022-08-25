@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户反馈</title>
+</head>
+<body>
+<h2 align=center>写反馈</h2>
+<form method="post">
+  <p>姓名：
+    <input required="required" onkeyup="this.value=this.value.replace(/[^\u4e00-\u9fa5]/g,'')" type="text" class=txt size="12" maxlength="20" name="username"/>
+  </p><p>性别：
+  <input required="required" type="radio" value="male" name="xingbie"/>男
+  <input required="required" type="radio" value="female" name="xingbie"/>女
+</p><p>年龄：
+  <input required="required" type="text" class=txt name="age"  />
+</p>
+  <p>联系电话：
+    <input required="required" type="text" class=txt name="tel" />
+  </p><p>电子邮件（选填）：
+  <input type="text" class=txt name="email" />
+</p><p>物资包ID：
+  <input required="required" type="text"  class=txt name="address" />
+</p>
+  <p>
+    请输入您对物资发放的建议与意见<br>
+    <textarea required="required" name="yourworks" cols ="50" rows = "5"></textarea>
+    <br>
+  </p>
+  <p style="font-size: 10px">反馈时请遵守<a href="https://www.shanghai.gov.cn/nw12344/20200924/0001-12344_65743.html" style="color: burlywood" id="banfa">《上海市“一网通办”平台运行管理暂行办法》</a></p>
+    <input type="submit" name="submit" value="提交"/>
+    <input type="reset" name="reset" value="清除" />
+  <button style="font-size: 18px;border-style: none;background-color: burlywood;color: white;border-radius: 19px" onclick="">查看所有反馈</button>
+</form>
+</body>
+</html>
