@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <title>爱心码-居民</title>
+    <title>爱心码-街道-物资包</title>
     <style type="text/css">
         body{
             margin: 0;
@@ -26,10 +26,16 @@
         #wzxx{
             text-decoration: none;
         }
+        #xqxx{
+            text-decoration: none;
+        }
         #yhfk{
             text-decoration: none;
         }
         #wzxx:hover{
+            background-color: gray;
+        }
+        #xqxx:hover{
             background-color: gray;
         }
         #yhfk:hover{
@@ -49,30 +55,30 @@
     <tr>
         <!-- menu -->
         <td style="background-color: gainsboro;width: 100px;margin: 0;height: 92VH;vertical-align: top;text-align: center;">
-            <li style="list-style-type: none"><a href="#" style="color: black;font-size: 18px;display: block;" id="wzxx">物资信息</a></li>
-            <li style="list-style-type: none"><a href="Fankui.html" style="color: black;font-size: 18px;display: block" id="yhfk">用户反馈</a></li>
+            <li style="list-style-type: none"><a href="WuzibaoForJiedao.html" style="color: black;font-size: 18px;display: block;" id="wzxx">物资信息</a></li>
+            <li style="list-style-type: none"><a href="XiaoquForJiedao.html" style="color: black;font-size: 18px;display: block;" id="xqxx">小区信息</a></li>
+            <li style="list-style-type: none"><a href="Allfankui.html" style="color: black;font-size: 18px;display: block" id="yhfk">用户反馈</a></li>
         </td>
         <!-- content -->
         <td id="content-td">
 
             <h2 id="title" style="text-align: center">
-                食品列表
+                物资包列表
             </h2>
-
             <table rules="rows" cellpadding="20px" style="text-align: center" id="t1">
                 <tr style="background-color: gainsboro">
                     <th>ID</th>
-                    <th>种类</th>
-                    <th>数量</th>
-                    <th>生产日期</th>
-                    <th>保质期</th>
+                    <th>名称</th>
+                    <th>份数</th>
+                    <th>价值</th>
                     <th>供应商</th>
-                    <th>物资包ID</th>
+                    <th>二维码状态</th>
+                    <th>二维码</th>
+                    <th>操作</th>
                 </tr>
                 <tbody id="kebianqu-body"></tbody>
             </table>
         </td>
-    </tr>
 </table>
 
 <p style="text-align: center;background-color: cornsilk;margin: 0">版权© xxx</p>
@@ -97,7 +103,7 @@
         }
 
         // 发送请求:
-        request.open('GET', 'http://localhost:8080/demo-web/jm');
+        request.open('GET', 'http://localhost:8080/demo-web/gysxq');
         request.send();
     }
 
@@ -113,23 +119,25 @@
             let json =  jsonList[i];
             // du(json);
 
-                html = html +
-                    "<tr>" +
-                    "<td>" + json.id + "</td>" +
-                    "<td>" + json.种类 + "</td>" +
-                    "<td>" + json.数量 + "</td>" +
-                    "<td>" + json.生产日期 + "</td>" +
-                    "<td>" + json.保质期 + "</td>" +
-                    "<td>" + json.供应商 + "</td>" +
-                    "<td>" + json.mp_id + "</td>" +
-                    "</tr>";
-            }
+            html = html +
+                "<tr>" +
+                "<td>" + json.id + "</td>" +
+                "<td>" + json.名称 + "</td>" +
+                "<td>" + json.数量 + "</td>" +
+                "<td>" + json.价格 + "</td>" +
+                "<td>" + json.供应商 + "</td>" +
+                "<td>" + json.二维码状态 + "</td>" +
+                "<td>" + json.二维码 + "</td>" +
+                "<td><a><button>编辑</button><a href='QRcodebuildForJiedao.html'><button>生成二维码</button></a></td>" +
+                "</tr>";
+        }
 
         document.getElementById("kebianqu-body").innerHTML = html;
     }
 
-            function fail(status) {
-                console.log(status)
+
+    function fail(status) {
+        console.log(status)
     }
 
 </script>

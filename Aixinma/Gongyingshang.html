@@ -9,6 +9,9 @@
             padding: 0;
             border: 0;
         }
+        #axm{
+            text-decoration: none;
+        }
         #gys{
             text-decoration: none;
         }
@@ -33,22 +36,25 @@
         #yhfk:hover{
             background-color: gray;
         }
+        #t1{
+            border-collapse: collapse;
+        }
     </style>
 </head>
 <body>
 <header style="background-color: black">
     <a href="Shouye.html" style="color: white;font-weight: bolder" id="axm">爱心码</a>
     <a href="Gongyingshang.html" style="color: white" id="gys">供应商</a>
-    <a href="Jiedao.html" style="color: white" id="jd">街道</a>
+    <a href="XiaoquForJiedao.html" style="color: white" id="jd">街道</a>
     <a href="Xiaoqu.html" style="color: white" id="xq">小区</a>
     <a href="Jumin.html" style="color: white" id="jm">居民</a>
 </header>
     <table>
       <tr>
         <!-- menu -->
-        <td style="background-color: gainsboro;padding-left: 50px; width: 75px;padding-right: 50px;padding-bottom: 500px;margin: 0">
-            <li style="list-style-type: none"><a class="active" href="#" style="color: black;font-size: 18px" id="wzxx">物资信息</a></li>
-            <li style="list-style-type: none"><a href="#news" style="color: black;font-size: 18px" id="yhfk">用户反馈</a></li>
+        <td style="background-color: gainsboro;width: 100px;margin: 0;height: 92VH;vertical-align: top;text-align: center;">
+            <li style="list-style-type: none"><a href="#" style="color: black;font-size: 18px;display: block;" id="wzxx">物资信息</a></li>
+            <li style="list-style-type: none"><a href="Allfankui.html" style="color: black;font-size: 18px;display: block" id="yhfk">用户反馈</a></li>
         </td>
         <!-- content -->
         <td id="content-td">
@@ -56,7 +62,6 @@
             <h2 id="title" style="text-align: center">
               物资包列表
             </h2>
-            <button onclick="du()">刷新</button>
               <table rules="rows" cellpadding="20px" style="text-align: center" id="t1">
                   <tr style="background-color: gainsboro">
                   <th>ID</th>
@@ -68,28 +73,15 @@
                   <th>二维码</th>
                   <th>操作</th>
                 </tr>
-                <tr id="kebianqu">
-                  <td>1</td>
-                  <td>援助物资包</td>
-                  <td>1000</td>
-                  <td>200000</td>
-                  <td>京东</td>
-                  <td>未生成</td>
-                  <td><img src="" alt="暂无二维码"></td>
-                  <td>
-                      <a><button>编辑</button></a>
-                      <a><button>删除</button></a>
-                      <a><button>添加</button></a>
-                  </td>
-                </tr>
+                  <tbody id="kebianqu-body"></tbody>
               </table>
         </td>
     </tr>
     </table>
-
 <p style="text-align: center;background-color: cornsilk;margin: 0">版权© xxx</p>
 
 <script>
+    setTimeout(load(), 100);
   function load() {
     const request = new XMLHttpRequest();
 
@@ -114,34 +106,36 @@
 
 
 
-  function success(txt) {
-    console.log(txt)
+    function success(txt) {
+        console.log(txt)
+        parseList(txt);
+    }
 
-    let json = JSON.parse(txt);
-    console.log("id", json.id);
-    console.log("name", json.name);
+    function parseList(list) {
+        let html = '';
+        let jsonList = JSON.parse(list);
+        for (let i=0;i<jsonList.length;i++){
+            let json =  jsonList[i];
+            // du(json);
 
-    let table = document.getElementById("panel-data");
-      let html = "<tr>" +
-          "<td>" + json.id + "</td>" +
-          "<td>" + json.名称 + "</td>" +
-          "<td>" + json.数量 + "</td>" +
-          "<td>" + json.价格 + "</td>" +
-          "<td>" + json.供应商 + "</td>" +
-          "<td>" + json.二维码状态 + "</td>" +
-          "<td>" + json.二维码 + "</td>" +
-          "<td><a><button>编辑</button></a><a><button>删除</button></a><a><button>添加</button></a></td>" +
-          "</tr>";
-      document.getElementById("kebianqu").innerHTML = html;
-  }
-  function du() {
+              html = html +
+                  "<tr>" +
+                  "<td>" + json.id + "</td>" +
+                  "<td>" + json.名称 + "</td>" +
+                  "<td>" + json.数量 + "</td>" +
+                  "<td>" + json.价格 + "</td>" +
+                  "<td>" + json.供应商 + "</td>" +
+                  "<td>" + json.二维码状态 + "</td>" +
+                  "<td>" + json.二维码 + "</td>" +
+                  "<td><a><button>编辑</button></a><a href='ShipinForGongyingshang.html'><button>查看食品信息</button></a></td>" +
+                  "</tr>";
+          }
 
+          document.getElementById("kebianqu-body").innerHTML = html;
+      }
 
-      load()
-  }
-
-  function fail(status) {
-    console.log(status)
+      function fail(status) {
+          console.log(status)
   }
 
 </script>
