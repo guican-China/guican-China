@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>爱心码-街道-生成二维码</title>
+</head>
+<body>
+
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+
+<div style="font-family: 'MiSans',sans-serif">
+    物资包ID：<input type="number" id="mp_id"><br>
+    小区ID：<input type="number" id="xq_id"><br><br>
+    <button style="border: 0;background-color: burlywood;color: white;font-size: 16px;font-family: 'MiSans',sans-serif;border-radius: 19px" onclick="grantQR()">授权生成二维码</button>
+</div>
+
+<script>
+
+function makeCode () {
+    new QRCode(document.getElementById("text"), {
+        text: "http://www.baidu.com?mp_id=1",
+        width: 80,
+        height: 80
+    });
+}
+//makeCode();
+
+function grantQR() {
+    // 物资包ID
+    let mp_id = document.getElementById("mp_id").innerText;
+    // 小区ID
+    let xq_id = document.getElementById("xq_id").innerText;
+    if(mp_id && xq_id) {
+        // 绑定物资包和小区
+        load(mp_id, xq_id);
+    }
+}
+
+function load(mp_id, xq_id) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            // 表示完成相应
+
+            if (request.status === 200) {
+                // 成功，通过responseText拿到响应的文本:
+                return success(request.responseText);
+            }else {
+                // 失败，根据响应码判断失败原因:
+                return fail(request.status);
+            }
+        }
+    }
+
+    // 发送请求:
+    request.open('GET', 'http://localhost:8080/demo-web/binding?mp_id=' + mp_id + "&xq_id" + xq_id);
+    request.send();
+}
+
+function success(txt) {
+    console.log(txt)
+    parseList(txt);
+}
+
+function parseList(list) {
+    let html = '';
+    let jsonList = JSON.parse(list);
+    for (let i=0;i<jsonList.length;i++){
+        let json =  jsonList[i];
+        // du(json);
+
+        html = html +
+            "<tr>" +
+            "<td>" + json.id + "</td>" +
+            "<td>" + json.种类 + "</td>" +
+            "<td>" + json.数量 + "</td>" +
+            "<td>" + json.生产日期 + "</td>" +
+            "<td>" + json.保质期 + "</td>" +
+            "<td>" + json.供应商 + "</td>" +
+            "<td><a><button>编辑</button></a><a><button>删除</button></a><a><button>添加</button></a></td>" +
+            "</tr>";
+    }
+
+    document.getElementById("kebianqu-body").innerHTML = html;
+}
+
+function fail(status) {
+    console.log(status)
+}
+</script>
+</body>
+</html>

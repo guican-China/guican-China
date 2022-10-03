@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>反馈大厅-用户反馈-爱心码</title>
+    <style type="text/css">
+        #aixinma{
+            text-decoration: none;
+        }
+        #shgov{
+            text-decoration: none;
+        }
+        #fkdt{
+            text-decoration: none;
+        }
+        #myxq{
+            text-decoration: none;
+        }
+        #ssk[type=text] {
+            height: 15px;
+            float: right;
+            padding: 2px;
+            border: none;
+            margin-top: 1px;
+            margin-bottom: 1px;
+            margin-right: 16px;
+            font-size: 10px;
+            font-family: "MiSans ExtraLight",sans-serif;
+            border-radius: 19px;
+            background-image: url("icon-搜索.png");
+            background-repeat: no-repeat;
+            background-size: 12px;
+            background-position: left;
+        }
+
+        #jianyi{
+            width: 1050px;
+            height: 90px;
+            left: 160px;
+            border-radius: 19px;
+            padding: 15px;
+            margin-top: 10px;
+            /* 设置自动换行 */
+            word-wrap: break-word;
+            backdrop-filter: blur(32px);
+        }
+    </style>
+</head>
+<body style="margin: 0;background-image: url(shanghai.jpg);background-position-y: -90px;background-size: 1300px">
+<div style="background-color: black;font-family: 'MiSans',sans-serif">
+    <a href="Shouye.html" style="color: white;font-weight: bolder" id="aixinma">爱心码</a>
+    <a href="Allfankui.html" style="color: white" id="fkdt">反馈大厅</a>
+    <a href="https://www.shanghai.gov.cn" target="_blank" style="color: white" id="shgov">上海市人民政府</a>
+    <input id="ssk" type="text" placeholder="   请输入关键字">
+</div>
+    <h1 style="font-family: 'MiSans',sans-serif">爱心码反馈大厅</h1>
+    <div id="fankui" style="font-family: 'MiSans',sans-serif"></div>
+
+<script>
+    setTimeout(load(), 100);
+    function load() {
+        const request = new XMLHttpRequest();
+
+        request.onreadystatechange = function () {
+            if(request.readyState === 4) {
+                // 表示完成相应
+
+                if (request.status === 200) {
+                    // 成功，通过responseText拿到响应的文本:
+                    return success(request.responseText);
+                }else {
+                    // 失败，根据响应码判断失败原因:
+                    return fail(request.status);
+                }
+            }
+        }
+
+        // 发送请求:
+        request.open('GET', 'http://localhost:8080/demo-web/allfk');
+        request.send();
+    }
+
+
+
+    function success(txt) {
+        console.log(txt)
+        parseList(txt);
+    }
+
+    function parseList(list) {
+        let html = '';
+        let jsonList = JSON.parse(list);
+        for (let i=0;i<jsonList.length;i++){
+            let json =  jsonList[i];
+            // du(json);
+
+            liuyanban = html +
+                "<div id=\"jianyi\" class=\"content\">" +
+                "<span style='text-align: left;font-weight: bold;font-size: 18px'>" + json.姓名 + " " + "</span>" +
+                "<span style='font-size: 18px'>" + "<img alt='ID' src='年龄.png' width='18' height='18'/>" + " " + json.年龄 + " " + "</span>" +
+                "<span style='color: olive;font-size: 18px'>" + "<img alt='ID' src='电话.png' width='20' height='20'/>" + json.电话 + " " + "</span>" +
+                "<span style='color: olive;font-size: 18px'>" + "<img alt='ID' src='email.png' width='18' height='18'/>" + " " + json.邮箱 + " " + "</span>" +
+                "<span style='font-size: 18px'>" + "<img alt='ID' src='包裹.png' width='20' height='20'/>" + "<p style='font-size: 4px'>ID</p>" + json.物资包ID + " " + "</span>" +
+                "<span>" + json.建议 + "</span>" + "</div>"
+        }
+
+        document.getElementById("fankui").innerHTML = liuyanban;
+    }
+
+    function fail(status) {
+        console.log(status)
+    }
+
+</script>
+</div>
+</body>
