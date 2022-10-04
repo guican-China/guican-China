@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户反馈</title>
+  <style type="text/css">
+    #banfa{
+      text-decoration: none;
+    }
+    body{
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+    #axm{
+      text-decoration: none;
+    }
+    #gys{
+      text-decoration: none;
+    }
+    #jd{
+      text-decoration: none;
+    }
+    #xq{
+      text-decoration: none;
+    }
+    #jm{
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body style="font-family: 'MiSans',sans-serif">
+<div id="daohanglan" style="background-color: black;font-family: 'MiSans',sans-serif">
+  <a href="Shouye.html" style="color: white;font-weight: bolder" id="axm">爱心码</a>
+  <a href="Gongyingshang.html" style="color: white" id="gys">供应商</a>
+  <a href="XiaoquForJiedao.html" style="color: white" id="jd">街道</a>
+  <a href="Xiaoqu.html" style="color: white" id="xq">小区</a>
+  <a href="Jumin.html" style="color: white" id="jm">居民</a>
+</div>
+<h1 style="margin-left: 8px">写反馈</h1>
+<div style="margin-left: 8px">
+  <p>姓名：
+    <input required="required" id="fk_name" type="text" class=txt size="12" maxlength="20" name="username"/>
+  </p>
+  <p>年龄：
+  <input required="required" id="fk_age" type="number" class=txt name="age"/>
+</p>
+  <p>联系电话：
+    <input required="required" id="fk_tel" type="number" class=txt name="tel" maxlength="11"/>
+  </p><p>电子邮件（选填）：
+  <input type="text" id="fk_email" class=txt name="email"/>
+</p><p>物资包ID：
+  <input required="required" id="fk_mp_id" type="number"  class=txt name="address"/>
+</p>
+  <p>
+    请输入您对物资发放的建议与意见<br>
+    <textarea required="required" id="fk_advice" name="yourworks" cols ="50" rows = "5"></textarea>
+    <br>
+  </p>
+  <p style="font-size: 10px">反馈时请遵守<a href="https://www.shanghai.gov.cn/nw12344/20200924/0001-12344_65743.html" style="color: burlywood" target="_blank" id="banfa">《上海市“一网通办”平台运行管理暂行办法》</a></p>
+    <input type="button" value="提交" onclick="submit()"/>
+    <input type="reset" name="reset" value="清除"/>
+  <button type="button" style="font-size: 13px;font-family: 'MiSans',sans-serif;padding:5px;border-style: none;background-color: burlywood;color: white;border-radius: 19px" onclick="window.open('Allfankui.html')">查看所有反馈</button>
+</div>
+<script>
+  function submit() {
+    // 1.读取表单的信息
+    let name = document.getElementById("fk_name").value;
+    let age = document.getElementById("fk_age").value;
+    let tel = document.getElementById("fk_tel").value;
+    let email = document.getElementById("fk_email").value;
+    let mp_id = document.getElementById("fk_mp_id").value;
+    let advice = document.getElementById("fk_advice").value;
+
+    //2.ajax把取到的信息发送到后端
+    load(name, age, tel, email, mp_id, advice);
+
+    //3.web后端新增servlet,接受ajax发送的信息并处理(保存)
+  }
+  function load(name, age, tel, email, mp_id, advice) {
+    const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+      if(request.readyState === 4) {
+        // 表示完成相应
+
+        if (request.status === 200) {
+          // 成功，通过responseText拿到响应的文本:
+          return success(request.responseText);
+        }else {
+          // 失败，根据响应码判断失败原因:
+          return fail(request.status);
+        }
+      }
+    }
+
+    // 发送请求:
+    let query = "name=" + name + "&age="+age + "&tel=" + tel + "&email=" + email
+    + "&mp_id="  + mp_id + "&advice=" + advice;
+    request.open('GET', 'http://localhost:8080/demo-web/fk?' + query);
+    request.send();
+  }
+
+  function success(txt) {
+    console.log(txt)
+  }
+
+  function fail(status) {
+    console.log(status)
+  }
+
+</script>
+</body>
+</html>
