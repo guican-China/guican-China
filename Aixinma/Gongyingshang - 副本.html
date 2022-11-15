@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="utf-8">
+  <title>社区爱心码-供应商</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        #axm{
+            text-decoration: none;
+        }
+        #gys{
+            text-decoration: none;
+        }
+        #jd{
+            text-decoration: none;
+        }
+        #xq{
+            text-decoration: none;
+        }
+        #jm{
+            text-decoration: none;
+        }
+        #wzxx{
+            text-decoration: none;
+        }
+        #yhfk{
+            text-decoration: none;
+        }
+        #wzxx:hover{
+            background-color: gray;
+        }
+        #yhfk:hover{
+            background-color: gray;
+        }
+        #t1{
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<div style="display: none;" id="qrcode">
+
+</div>
+<div id="daohanglan" style="background-color: black;font-family: 'MiSans',sans-serif">
+    <a href="Shouye.html" style="color: white;font-weight: bolder" id="axm">爱心码</a>
+    <a href="Gongyingshang.html" style="color: white" id="gys">供应商</a>
+    <a href="XiaoquForJiedao.html" style="color: white" id="jd">街道</a>
+    <a href="Xiaoqu.html" style="color: white" id="xq">小区</a>
+    <a href="Jumin.html" style="color: white" id="jm">居民</a>
+</div>
+    <table>
+      <tr>
+        <!-- menu -->
+        <td style="background-color: gainsboro;width: 100px;margin: 0;height: 92VH;vertical-align: top;text-align: center;">
+            <li style="list-style-type: none"><a href="Gongyingshang.html" style="color: black;font-size: 18px;font-family: 'MiSans',sans-serif;display: block;" id="wzxx">物资信息</a></li>
+            <li style="list-style-type: none"><a href="Allfankui.html" style="color: black;font-size: 18px;font-family: 'MiSans',sans-serif;display: block" id="yhfk">用户反馈</a></li>
+        </td>
+        <!-- content -->
+        <td id="content-td" style="vertical-align: top">
+
+            <h2 id="title" style="font-family: 'MiSans Heavy',sans-serif;text-align: center">
+              物资包列表
+            </h2>
+            <table rules="rows" cellpadding="20px" style="text-align: center;font-family: 'MiSans',sans-serif" id="t1">
+                  <tr style="background-color: gainsboro">
+                  <th>ID</th>
+                  <th>名称</th>
+                  <th>份数</th>
+                  <th>价值</th>
+                  <th>供应商</th>
+                  <th>二维码状态</th>
+                  <th>二维码</th>
+                  <th>操作</th>
+                </tr>
+                  <tbody id="kebianqu-body"></tbody>
+              </table>
+        </td>
+    </tr>
+    </table>
+<p style="text-align: center;background-color: cornsilk;margin: 0">版权© xxx</p>
+
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+
+<script>
+    setTimeout(load(), 100);
+    // setTimeout(success('[{"id":"1","名称":"2","数量":"2","价格":"2","供应商":"2", "二维码状态":1},{"id":"2","名称":"2","数量":"2","价格":"2","供应商":"2", "二维码状态":2}]'), 10000);
+
+    function load() {
+        const request = new XMLHttpRequest();
+
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                // 表示完成相应
+
+                if (request.status === 200) {
+                    // 成功，通过responseText拿到响应的文本:
+                    return success(request.responseText);
+                } else {
+                    // 失败，根据响应码判断失败原因:
+                    return fail(request.status);
+                }
+            }
+        }
+
+        // 发送请求:
+        request.open('GET', 'http://101.35.140.248:8080/demo-web/gysxq');
+        request.send();
+    }
+
+    function success(txt) {
+        console.log(txt)
+        let len = parseList(txt);
+        if (len < 1) {
+            return;
+        }
+
+        console.log("开始渲染二维码");
+        window.setTimeout(function () {
+            console.log("=======", txt)
+            let jsonList = JSON.parse(txt);
+            let imgs = document.getElementsByTagName('img');
+            let ii = 0;
+            console.log("images", imgs.length, jsonList.length)
+            for (let i = 0; i < jsonList.length; i++) {
+                let json = jsonList[i];
+                if (json['二维码状态'] == 0) {
+                    continue;
+                }
+
+                let img = document.createElement("img");
+                img.src = imgs[ii].src;
+                let dym = document.getElementById('dym-' + json.id);
+                dym.innerHTML = '';
+                // console.log(json , i, imgs[ii].src, document.getElementById('dym-' + json.id));
+                dym.append(img);
+
+                ii++;
+            }
+
+        }, 2000);
+    }
+
+    function parseList(list) {
+        let html = '';
+        let jsonList = JSON.parse(list);
+        for (let i = 0; i < jsonList.length; i++) {
+            let json = jsonList[i];
+
+            html = html +
+                "<tr>" +
+                "<td>" + json.id + "</td>" +
+                "<td>" + json.名称 + "</td>" +
+                "<td>" + json.数量 + "</td>" +
+                "<td>" + json.价格 + "</td>" +
+                "<td>" + json.供应商 + "</td>" +
+                "<td>" + json.二维码状态 + "</td>" +
+                "<td id='dym-" + json.id + "'>" + makeCode(json.二维码状态, json.id) + "</td>" +
+                "<td>" +
+                "<a><button>编辑</button></a>" +
+                "<a href='WuzibaoDuiyingShipin.html?id=" + json.id + "'><button>查看食品信息</button></a>" +
+                "</td>" +
+                "</tr>";
+        }
+
+        document.getElementById("kebianqu-body").innerHTML = html;
+        return jsonList.length;
+    }
+
+    function fail(status) {
+        console.log(status)
+    }
+
+    function makeCode(state, id) {
+        if (state == 0) {
+            return '暂无二维码';
+        }
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: "http://101.35.140.248/WuzibaoDuiyingShipin.html?id=" + id,
+            width: 175,
+            height: 175
+        });
+        return '生成中';
+    }
+</script>
+</body>
+</html>
